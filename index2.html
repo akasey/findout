@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        
+
+        
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+    <div class="navbar navbar-inverse navbar-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="logo.png" /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container" style="text-align: center;">
+      <!-- Video Place -->
+      <h2>Watch the Video Carefully</h2>
+        <iframe scrolling="no" allowTransparency="true" frameborder="0" width="800" height="500" src="http://goanimate.com/player/embed/0iJqNVvhApm8"></iframe>
+      </div>
+    </div>
+    <div style="background: #9e97d1; padding: 20px 0px;"><center><h2>Find the integrity problems in the video</h2></center></div>
+    <br /><br/>
+    <div class="container" id="arena" style="font-size: 18px;">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4">
+          <div id="time"></div>
+          <div id="score">Score: 0</div>
+          <div id="total">Total: 2</div>
+        </div>
+        <div class="col-lg-8">
+            <div id="currentAnswer">Current Answer:</div>
+        </div>
+      </div>
+      <center>
+      <canvas id="myCanvas" width="420" height="420" style="border:1px solid #000000;">
+      </canvas>
+      </center>
+      <div class="row">
+          <div class="col-lg-8 well" id="correctAnswer">Correct Answers:</div>
+          <div class="col-lg-4"></div>
+      </div>
+      
+    </div>
+
+      <hr>
+
+      <footer>
+        <p>Ideathon - 2014</p>
+      </footer>
+    </div> <!--      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>-->
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/frame.js"></script>
+        <script>
+
+        var drag = false;
+
+
+        $("#myCanvas").mousedown(function(event){
+            drag=true;
+            scrambleBox.cleanSel();
+        });
+        
+        
+
+        $("#myCanvas").mouseup(function(event) {
+            drag = false;
+            scrambleBox.calculate();
+            //scrambleBox.mouseup(true);
+        });
+
+        $("#myCanvas").mousemove(function(event) {
+          if(drag){
+              scrambleBox.checkMouse(event);
+          }
+        });
+
+        $("document").ready()
+        {
+          var c = document.getElementById("myCanvas");
+          var ctx = c.getContext("2d");
+
+/*          var dictionary = "{
+          \"words\":[
+          {\"word\":\"Cronyism\",\"meaning\":\"favouritism for colleagues or friends\"},
+          {\"word\":\"Nepotism\",\"meaning\":\"favourtism granted in politics or business to relative\"},
+          {\"word\":\"Corruption\",\"meaning\":\"the act of imparing integrity, virtue or moral principle\"},
+          {\"word\":\"Extortion\",\"meaning\":\"an operation in which money and/or property is transported illegally\"},
+          {\"word\":\"Bribe\",\"meaning\":\"persuade (someone) to act in one's favor, typically illegally or dishonestly, by a gift of money or other inducement\"},
+          {\"word\":\"TimeTheft\",\"meaning\":\"taking longer breaks at work then your employer allows you to\"},
+          {\"word\":\"Double Dipping\",\"meaning\":\"obtain an income from two different sources, typically in an illicit way\"},
+          {\"word\":\"Abuse\",\"meaning\":\"use (something) to bad effect or for a bad purpose; misuse\"},
+          {\"word\":\"Embezzlement\",\"meaning\":\"fraudulent conversion of another's property by a person who is in a position of trust\"},
+          {\"word\":\"Ghost Worker\",\"meaning\":\"workers whose names are listed on the payroll as receiving salaries, but who do not exist or no longer work for the organisation\"},
+          {\"word\":\"Interest Pedding\",\"meaning\":\"occurs when a professional solicits benefits in exchange for using his influence to unfairly advance the interests of a particular person or party\"},
+          {\"word\":\"Favouritism\",\"meaning\":\"the practice of giving unfair preferential treatment to one person or group at the expense of another\"},
+          {\"word\":\"Kickbacks\",\"meaning\":\"a form of negotiated bribery in which a commission is paid to the bribe-taker as a quid pro quo for services rendered\"},
+          {\"word\":\"Patronage\",\"meaning\":\"the power to control appointments to office or the right to privileges\"}, 
+          {\"word\":\"Fiduciary Failure\",\"meaning\":\"failure to keep trust\"},
+          {\"word\":\"Rigged Bid\",\"meaning\":\"a form of fraud in which a commercial contract is promised to one party even though for the sake of appearance several other parties also present a bid\"}
+          ]
+          }";*/
+
+
+
+          scrambleBox.setParam(50,50,10,10);
+          scrambleBox.setContext(ctx);
+          // scrambleBox.setArena($('#arena'));
+
+          wordList = [["E","T",'I','M','E','T','H','E'],
+          ['B','B','O','C','E','N','F','F'],
+          ['I','R','R','O','P','E','X','T'],
+          ['M','U','P','T','R','O','T','K'],
+          ['O','N','Y','I','O','N','G','I'],
+          ['R','U','B','S','Z','I','K','C'],
+          ['C','O','L','M','Y','P','C','K'],
+          ['A','B','U','S','E','P','A','B']]
+          ;
+
+          // count=0;
+
+          // for(i=0;i<8;i++)
+          // {
+
+          //   wordList[i] =[];
+
+          //   for(j=0;j<8;j++)
+          //   {
+          //     wordList[i][j]=count;
+          //     count++;
+          //   }
+
+          // }
+
+          console.log(wordList);
+
+          scrambleBox.setWordList(wordList);
+          scrambleBox.draw();
+        }
+
+        </script>
+
+        <script type="text/javascript">
+        //Timer
+          var clock=0;
+          // setInterval(function(){
+          //   $('#time').html("Time: " + clock++);
+          // },1000);
+        </script>
+        
+
+    </body>
+</html>

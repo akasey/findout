@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7">
+    <![endif]-->
+    <!--[if IE 7]>
+    <html class="no-js lt-ie9 lt-ie8">
+        <![endif]-->
+        <!--[if IE 8]>
+        <html class="no-js lt-ie9">
+            <![endif]-->
+            <!--[if gt IE 8]>
+            <!-->
+            <html class="no-js">
+                <!--<![endif]-->
+            <head>
+                <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+                <title></title>
+                <meta name="description" content="">
+                <meta name="viewport" content="width=device-width">
+
+                <link rel="stylesheet" href="css/bootstrap.min.css">
+                <style>
+                    body {
+                        padding-top: 50px;
+                        padding-bottom: 20px;
+                    }
+                </style>
+                <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+                <link rel="stylesheet" href="css/main.css">
+
+                <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+            </head> 
+<body>
+                <!--[if lt IE 7]>
+                <p class="chromeframe">
+                    You are using an <strong>outdated</strong>
+                    browser. Please
+                    <a href="http://browsehappy.com/">upgrade your browser</a>
+                    or
+                    <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a>
+                    to improve your experience.
+                </p>
+                <![endif]-->
+                <div class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">
+                                <img src="logo.png" />
+                            </a>
+                        </div>
+                        <div class="navbar-collapse collapse"></div>
+                        <!--/.navbar-collapse --> </div>
+                </div>
+
+                <!-- Main jumbotron for a primary marketing message or call to action -->
+                <div class="jumbotron">
+                    <div class="container" style="text-align: center;"></div>
+                </div>
+
+                <div class="container" style="font-size: 18px;">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <table class="table table-hover" style="cursor: pointer; font-size: 14px;">
+                                <tbody>
+                                    <tr><td id="time">0</td></tr>
+                                    <tr><td id="score"><b>Score:</b> 0</td></tr>
+                                    <tr><td id="total"><b>Total:</b> 2</td></tr>
+                                    <tr><td id="currentAnswer"><b>Selection: </b></td></tr>
+                                </tbody>
+                            </table>
+<!--                             <div id="time">Time: </div>
+                            <div id="score">Score: </div>
+                            <div id="total">Total: </div> -->
+                        </div>
+                        <div class="col-lg-8">
+                        <p style="text-align: right; padding: 20px 10px; background: #9e97d1; color:#fff;">Find the Integrity problems in shown video</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <!-- Video Place -->
+                            <iframe scrolling="no" allowTransparency="true" frameborder="0" width="600" height="380" src="http://goanimate.com/player/embed/0iJqNVvhApm8"></iframe>
+                        </div>
+                        <div class="col-lg-6">
+
+                            <div id="arena" style="font-size: 18px;">
+                                <center>
+                                    <canvas id="myCanvas" width="420" height="420" style="border:1px solid #000000;"></canvas>
+                                    <p id="showAnswer" style="display:none;"><a href="solution.png">Check Answer</a></p>
+                                </center>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-6">
+                            <h4>Correct Answers:</h4>
+                            <table class="table table-striped" style="font-size:14px;">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="correctAnswer">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-4"></div>
+                    </div>
+                </div>
+                <br /><br /><br /><br />
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="navbar-inner">
+            <p style="padding: 10px 20px 0 20px;"><b>Winner@<a target="_blank" href="http://yipl.com.np/ideathon">INTEGRITY IDEATHON</a></b> - 2014</p>
+        </div>
+    </nav>
+
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+
+    <script src="js/vendor/bootstrap.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/frame.js"></script>
+    <script>
+
+    var drag = false;
+
+
+    $("#myCanvas").mousedown(function(event){
+        drag=true;
+        scrambleBox.cleanSel();
+    });
+
+
+
+    $("#myCanvas").mouseup(function(event) {
+        drag = false;
+        scrambleBox.calculate();
+            //scrambleBox.mouseup(true);
+        });
+
+    $("#myCanvas").mousemove(function(event) {
+      if(drag){
+          scrambleBox.checkMouse(event);
+      }
+  });
+
+    $("document").ready()
+    {
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+
+      scrambleBox.setParam(50,50,10,10);
+      scrambleBox.setContext(ctx);
+      var correctAns = ["CRONYISM","ABUSE"];
+      var dictionary = []; // supposed to be the parsed JSON.. for prototype values are directly assigned
+      dictionary["cronyism"] = "Favouritism for Colleagues or Friends";
+      dictionary["abuse"] = "use (something) to bad effect or for a bad purpose; misuse";
+      scrambleBox.setCorrectAnswer(correctAns);
+      scrambleBox.setDictionary( dictionary );
+
+          wordList = [["E","T",'I','M','E','T','H','E'],
+          ['B','B','O','C','E','N','F','F'],
+          ['I','R','R','O','P','E','X','T'],
+          ['M','U','P','T','R','O','T','K'],
+          ['O','N','Y','I','O','N','G','I'],
+          ['R','U','B','S','Z','I','K','C'],
+          ['C','O','L','M','Y','P','C','K'],
+          ['A','B','U','S','E','P','A','B']]
+          ; // holds the arrangement of word in the scramble box
+
+          console.log(wordList);
+
+          scrambleBox.setWordList(wordList);
+          scrambleBox.draw();
+      }
+
+  </script>
+
+    <script type="text/javascript">
+        //Timer
+        var clock=100; //less because we want to show answer quick :)
+        var time = setInterval(function(){
+            $('#time').html("<b>Time: </b>" + clock--);
+            if(clock==0){
+                alert("Time's UP!");
+                clearInterval(time);
+                $('#showAnswer').slideDown('normal');
+            }
+        },1000);
+    </script>
+
+</body>
+</html>
